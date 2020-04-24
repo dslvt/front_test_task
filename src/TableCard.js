@@ -10,17 +10,14 @@ class TableCard extends React.Component{
 
     render(){
         let sign = "";
-        if (this.state.cur_price < this.state.rec_price){
+        if (this.props.cur_price < this.props.rec_price){
             sign = "👍";
-        }else if (this.state.cur_price > this.state.rec_price){
+        }else if (this.props.cur_price > this.props.rec_price){
             sign = "👎";
         }else{
             sign = "👌";
         }
 
-        let date = new Date();
-        date.setTime(Number(this.state.date));
-        let st_time = `${date.getDay()}:${date.getMonth()}:${date.getYear()}`;
         let card_class = ["tableCard"];
         if(this.props.checked)
             card_class.push("checkedCard");
@@ -29,11 +26,21 @@ class TableCard extends React.Component{
 
 
         return(
-            <div className={card_class.join(" ")} onClick={this.props.onclick} onMouseEnter={()=>this.setState({hovered:true})}
-                onMouseLeave={()=>this.setState({hovered:false})}>
+            <div className={card_class.join(" ")} 
+                onClick={this.props.onclick} 
+                onMouseEnter={()=>this.setState({hovered:true})}
+                onMouseLeave={()=>this.setState({hovered:false})}
+                onChange={this.props.onvaluechange}>
+
                 <div className="priceHolder">
                     <div>{this.state.cur_price}</div>
-                    <div>{this.state.rec_price}</div>
+                    <div className="inputField">
+                        <input type="text" 
+                        className="input" 
+                        placeholder={this.props.rec_price}
+                        onChange={this.props.onchangevalue}/>
+                        <span className="bottomLine"></span>
+                    </div>
                 </div>
                 <div className="sign">{sign}</div>
             </div>

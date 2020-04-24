@@ -29,3 +29,52 @@
 .sign{
     font-size: 2em;
 }
+
+.input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #3a3a3a;
+    opacity: 1; /* Firefox */
+}
+
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: black;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+    color: black;
+}
+.inputField {
+    position: relative;
+}
+
+.input {
+    width: 6.5em;
+    color: black;
+    font-size: inherit;
+    font-family: inherit;
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-bottom-color: hsla(185, 100%, 62%, 0.2);
+    text-align: center;
+}
+
+.input:focus {
+    outline: none;
+}
+
+.bottomLine {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background-color: #3cefff;
+    transform-origin: bottom right;
+    transform: scaleX(0);
+    transition: transform 0.5s ease;
+}
+
+.input:focus ~ span {
+    transform-origin: bottom left;
+    transform: scaleX(1);
+}

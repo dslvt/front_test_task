@@ -10,6 +10,13 @@ class Table extends React.Component{
     this.state = {data: this.props.data, clicked: []};
     this.formatDate = this.formatDate.bind(this);
     this.sendData = this.sendData.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
+
+    this.tableHeader = this.state.data.map((d)=>{
+      return d.category;
+    }).filter((v, i, a) => a.indexOf(v) === i);
+
+
   }
 
   handleClick = (id) => {
@@ -22,31 +29,33 @@ class Table extends React.Component{
     return date.toDateString();
   }
 
+  handleInputChange = (id, event) => {
+    console.log(event.target.value, 'asf');
+    this.setState({data: [...this.state.data.filter((e)=>e.id!==id), 
+      {...this.state.data.filter((e)=>e.id===id)[0], recommend_price:event.target.value}]});
+  }
+
   sendData = () => {
     let info = this.state.clicked
       .sort((a, b) => a - b)
-      .map((d) => {return this.props.data.filter((v) => v.id === d)[0]});
+      .map((d) => {return this.state.data.filter((v) => v.id === d)[0]});
     console.table(info);
     alert(JSON.stringify(info));
   } 
 
 
   render(){
-    let tableHeader = this.state.data.map((d)=>{
-      return d.category;
-    }).filter((v, i, a) => a.indexOf(v) === i);
-
     let firstRow = this.state.data
       .map((d) => d.date)
       .filter((v, i, a) => a.indexOf(v) === i)
       .sort((a, b) => a-b);
     
-    console.log(tableHeader, firstRow)
+    console.log(this.tableHeader, firstRow)
 
-    let tableData = [...Array(firstRow.length)].map(e => Array(tableHeader.length));
+    let tableData = [...Array(firstRow.length)].map(e => Array(this.tableHeader.length));
     for(let i = 0; i < firstRow.length; i++){
-      for(let j = 0; j < tableHeader.length; j++){
-        let res = this.state.data.filter((d) => d.category === tableHeader[j]).filter((d) => d.date === firstRow[i]);
+      for(let j = 0; j < this.tableHeader.length; j++){
+        let res = this.state.data.filter((d) => d.category === this.tableHeader[j]).filter((d) => d.date === firstRow[i]);
         if(res.length !== 0){
           tableData[i][j] = res[0];
         }else{
@@ -58,10 +67,15 @@ class Table extends React.Component{
     return(
       <div className="Table">
         <table>
-          <thead><tr>{["", ...tableHeader].map((d) => <th>{d}</th>)}</tr></thead>
+          <thead><tr>{["", ...this.tableHeader].map((d) => <th>{d}</th>)}</tr></thead>
           <tbody>
             {tableData.map((row, i) => <tr>{[this.formatDate(firstRow[i]) , ...row.map((card_data) => {
-              return card_data!==null? <td><TableCard cur_price={card_data.current_price} rec_price={card_data.recommend_price} date={card_data.date} key={card_data.id} 
+              return card_data!==null? <td><TableCard 
+              cur_price={card_data.current_price} 
+              rec_price={card_data.recommend_price} 
+              date={card_data.date} 
+              key={card_data.id} 
+              onchangevalue={this.handleInputChange.bind(this, card_data.id)}
               checked={this.state.clicked.includes(card_data.id)} 
               onclick={this.handleClick.bind(this, card_data.id)}></TableCard></td> : <td>-</td>})]}</tr>)}
           </tbody>
