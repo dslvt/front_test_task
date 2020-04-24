@@ -16,9 +16,8 @@
 }
 
 .checkedCard{
-  margin: -2px;
   background-color: beige;
-  border:2px solid #E0E0CC 
+  outline:2px solid #E0E0CC 
 } 
 
 .hoveredCard{

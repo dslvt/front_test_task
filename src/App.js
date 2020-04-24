@@ -43,11 +43,10 @@ class Table extends React.Component{
     
     console.log(tableHeader, firstRow)
 
-    let tableData = [...Array(tableHeader.length)].map(e => Array(firstRow.length));
-    for(let i = 0; i < tableHeader.length; i++){
-      for(let j = 0; j < firstRow.length; j++){
-        let res = this.state.data.filter((d) => d.category === tableHeader[i])
-        res = res.filter((d) => d.date === firstRow[j]);
+    let tableData = [...Array(firstRow.length)].map(e => Array(tableHeader.length));
+    for(let i = 0; i < firstRow.length; i++){
+      for(let j = 0; j < tableHeader.length; j++){
+        let res = this.state.data.filter((d) => d.category === tableHeader[j]).filter((d) => d.date === firstRow[i]);
         if(res.length !== 0){
           tableData[i][j] = res[0];
         }else{

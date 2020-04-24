@@ -10,9 +10,9 @@ class TableCard extends React.Component{
 
     render(){
         let sign = "";
-        if (this.state.cur_price > this.state.rec_price){
+        if (this.state.cur_price < this.state.rec_price){
             sign = "👍";
-        }else if (this.state.cur_price < this.state.rec_price){
+        }else if (this.state.cur_price > this.state.rec_price){
             sign = "👎";
         }else{
             sign = "👌";
