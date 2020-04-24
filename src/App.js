@@ -9,6 +9,7 @@ class Table extends React.Component{
 
     this.state = {data: this.props.data, clicked: []};
     this.formatDate = this.formatDate.bind(this);
+    this.sendData = this.sendData.bind(this);
   }
 
   handleClick = (id) => {
@@ -20,6 +21,13 @@ class Table extends React.Component{
     let date = new Date(timestamp);
     return date.toDateString();
   }
+
+  sendData = () => {
+    console.table(this.state.clicked
+      .sort((a, b) => a - b)
+      .map((d) => {return this.props.data.filter((v) => v.id === d)[0]}));
+  } 
+
 
   render(){
     let tableHeader = this.state.data.filter((v, i, a) => a.indexOf(v) === i).map((d)=>{
@@ -53,6 +61,7 @@ class Table extends React.Component{
               checked={this.state.clicked.includes(card_data.id)}
               onclick={this.handleClick.bind(this, card_data.id)}></TableCard></td> : <td>-</td>})]}</tr>)}
           </tbody>
+          <button onClick={this.sendData}>Apply</button>
         </table>
       </div>
     );
