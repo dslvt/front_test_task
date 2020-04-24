@@ -11,6 +11,7 @@ class Table extends React.Component{
     this.formatDate = this.formatDate.bind(this);
     this.sendData = this.sendData.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.selectByCategory = this.selectByCategory.bind(this);
 
     this.tableHeader = this.state.data.map((d)=>{
       return d.category;
@@ -43,6 +44,15 @@ class Table extends React.Component{
     alert(JSON.stringify(info));
   } 
 
+  selectByCategory = (name, category) => {
+    this.setState(state => ({
+      clicked:[...this.state.data.filter((v) => this.state.clicked.includes(v.id)).filter((e) => e[category] === name)].length!== [...this.state.data.filter((e) => e[category] === name)].length?
+               [...this.state.data.filter((e) => e[category] === name).map((e) => e.id), ...this.state.clicked].filter((v, i, a) => a.indexOf(v) === i):
+                this.state.clicked.filter((v) => ![...this.state.data.filter((e) => e[category] === name).map((e) => e.id)].includes(v))
+    }));
+  }
+
+
 
   render(){
     let firstRow = this.state.data
@@ -67,9 +77,10 @@ class Table extends React.Component{
     return(
       <div className="Table">
         <table>
-          <thead><tr>{["", ...firstRow].map((d) => <th>{this.formatDate(d)}</th>)}</tr></thead>
+          <thead><tr>{["", ...firstRow].map((d) => <th onClick={this.selectByCategory.bind(this, d, "date")}>{this.formatDate(d)}</th>)}</tr></thead>
           <tbody>
-            {tableData.map((row, i) => <tr>{[this.tableHeader[i] , ...row.map((card_data) => {
+            {tableData.map((row, i) => <tr>{[<td onClick={this.selectByCategory.bind(this, this.tableHeader[i], "category")}>{this.tableHeader[i]}
+            </td>, ...row.map((card_data) => {
               return card_data!==null? <td><TableCard 
               cur_price={card_data.current_price} 
               rec_price={card_data.recommend_price} 
