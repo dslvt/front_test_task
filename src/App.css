@@ -1,0 +1,50 @@
+td{
+  text-align: center;
+}
+tr:nth-child(even) {background-color: #c6def1;}
+
+th {
+  background-color: #f9c6c9;
+  color: white;
+}
+
+th {
+  height: 3em;
+}
+
+.Table{
+    display: flex;
+    justify-content: center;
+    overflow: auto;
+}
+
+.tbutton{
+  font-size: 20px;
+  z-index: 1;
+  position: relative;
+  font-size: inherit;
+  font-family: inherit;
+  color: white;
+  padding: 0.5em 1em;
+  outline: none;
+  border: none;
+  background-color: #4281a4;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+button::after {
+  content: '';
+  z-index: -1;
+  background-color: hsla(0, 0%, 100%, 0.2);
+  position: absolute;
+  top: -50%;
+  bottom: -50%;
+  width: 1.25em;
+  transform: translate3d(-525%, 0, 0) rotate(35deg);
+}
+
+button:hover::after {
+  transition: transform 0.45s ease-in-out;
+  transform: translate3d(200%, 0, 0) rotate(35deg);
+}

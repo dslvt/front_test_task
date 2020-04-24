@@ -23,26 +23,31 @@ class Table extends React.Component{
   }
 
   sendData = () => {
-    console.table(this.state.clicked
+    let info = this.state.clicked
       .sort((a, b) => a - b)
-      .map((d) => {return this.props.data.filter((v) => v.id === d)[0]}));
+      .map((d) => {return this.props.data.filter((v) => v.id === d)[0]});
+    console.table(info);
+    alert(JSON.stringify(info));
   } 
 
 
   render(){
-    let tableHeader = this.state.data.filter((v, i, a) => a.indexOf(v) === i).map((d)=>{
+    let tableHeader = this.state.data.map((d)=>{
       return d.category;
-    });
+    }).filter((v, i, a) => a.indexOf(v) === i);
+
     let firstRow = this.state.data
+      .map((d) => d.date)
       .filter((v, i, a) => a.indexOf(v) === i)
-      .sort((a, b) => a.date - b.date);
+      .sort((a, b) => a-b);
     
+    console.log(tableHeader, firstRow)
 
     let tableData = [...Array(tableHeader.length)].map(e => Array(firstRow.length));
     for(let i = 0; i < tableHeader.length; i++){
       for(let j = 0; j < firstRow.length; j++){
         let res = this.state.data.filter((d) => d.category === tableHeader[i])
-        res = res.filter((d) => d.date === firstRow[j].date);
+        res = res.filter((d) => d.date === firstRow[j]);
         if(res.length !== 0){
           tableData[i][j] = res[0];
         }else{
@@ -56,12 +61,12 @@ class Table extends React.Component{
         <table>
           <thead><tr>{["", ...tableHeader].map((d) => <th>{d}</th>)}</tr></thead>
           <tbody>
-            {tableData.map((row, i) => <tr>{[this.formatDate(firstRow[i].date) , ...row.map((card_data) => {
+            {tableData.map((row, i) => <tr>{[this.formatDate(firstRow[i]) , ...row.map((card_data) => {
               return card_data!==null? <td><TableCard cur_price={card_data.current_price} rec_price={card_data.recommend_price} date={card_data.date} key={card_data.id} 
-              checked={this.state.clicked.includes(card_data.id)}
+              checked={this.state.clicked.includes(card_data.id)} 
               onclick={this.handleClick.bind(this, card_data.id)}></TableCard></td> : <td>-</td>})]}</tr>)}
           </tbody>
-          <button onClick={this.sendData}>Apply</button>
+          <button className="tbutton" onClick={this.sendData}>Apply</button>
         </table>
       </div>
     );

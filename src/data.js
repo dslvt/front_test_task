@@ -19,6 +19,13 @@ let data = [
         current_price: 5000,
         recommend_price: 5000,
         date: 1587669283015
+    },
+    {
+        id: 4,
+        category: "Queen",
+        current_price: 5000,
+        recommend_price: 4000,
+        date: 1587669236178
     }
 ]
 
