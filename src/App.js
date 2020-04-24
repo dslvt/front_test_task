@@ -26,7 +26,7 @@ class Table extends React.Component{
   } 
   formatDate = (timestamp) => {
     let date = new Date(timestamp);
-    return date.toDateString();
+    return date.toDateString() == 'Invalid Date'?"":date.toDateString();
   }
 
   handleInputChange = (id, event) => {
@@ -53,9 +53,9 @@ class Table extends React.Component{
     console.log(this.tableHeader, firstRow)
 
     let tableData = [...Array(firstRow.length)].map(e => Array(this.tableHeader.length));
-    for(let i = 0; i < firstRow.length; i++){
-      for(let j = 0; j < this.tableHeader.length; j++){
-        let res = this.state.data.filter((d) => d.category === this.tableHeader[j]).filter((d) => d.date === firstRow[i]);
+    for(let i = 0; i < this.tableHeader.length; i++){
+      for(let j = 0; j < firstRow.length; j++){
+        let res = this.state.data.filter((d) => d.category === this.tableHeader[i]).filter((d) => d.date === firstRow[j]);
         if(res.length !== 0){
           tableData[i][j] = res[0];
         }else{
@@ -67,9 +67,9 @@ class Table extends React.Component{
     return(
       <div className="Table">
         <table>
-          <thead><tr>{["", ...this.tableHeader].map((d) => <th>{d}</th>)}</tr></thead>
+          <thead><tr>{["", ...firstRow].map((d) => <th>{this.formatDate(d)}</th>)}</tr></thead>
           <tbody>
-            {tableData.map((row, i) => <tr>{[this.formatDate(firstRow[i]) , ...row.map((card_data) => {
+            {tableData.map((row, i) => <tr>{[this.tableHeader[i] , ...row.map((card_data) => {
               return card_data!==null? <td><TableCard 
               cur_price={card_data.current_price} 
               rec_price={card_data.recommend_price} 
