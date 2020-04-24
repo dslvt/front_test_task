@@ -1,0 +1,13 @@
+.tableCard{
+    display: flex;
+
+}
+
+.priceHolder{
+    display: flex;
+    flex-direction: column;
+}
+
+.checkedCard{
+  background-color: beige;
+} 
